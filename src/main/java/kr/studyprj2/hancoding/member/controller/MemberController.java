@@ -16,7 +16,7 @@ public class MemberController {
 
     //회원가입 페이지
     @GetMapping("/save")
-    public String getMemberSave(){
+    public String getMemberSave() {
 
         return "savemember";
     }
@@ -24,11 +24,13 @@ public class MemberController {
 
     @PostMapping("/save")
     //@ModelAttribute 생략가능
-    public String postMemberSave(@ModelAttribute  MemberDTO memberDTO){
+    public String postMemberSave(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("in postMemberSave");
         System.out.println("memberDTO = " + memberDTO);
+
+        //컨트롤러에서 서비스 호출하며 dto객체 넘김, 서비스에서는 레포지토리 호출하면서 dto를 entity로 변환후 entity 넘김, 레포지토리는 jpa 에서 상속받은 sava 메소드 호출
         memberService.save(memberDTO);
 
-        return "index";
+        return "login";
     }
 }
