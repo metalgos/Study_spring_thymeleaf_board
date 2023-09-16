@@ -8,6 +8,9 @@
 
 <h1>Hello World!!!</h1>
 
+<button onclick="saveMem()">회원가입</button>
+<button onclick="loginMemq()">로그인</button>
+
 <button onclick="saveReq()">글작성</button>
 
 <script>
@@ -15,6 +18,14 @@
 
   const saveReq =() => {
     location.href="/board/save";
+  }
+
+    const saveMem =() => {
+    location.href="/member/save";
+  }
+
+    const loginMemq =() => {
+    location.href="/member/login";
   }
 </script>
 
