@@ -4,9 +4,11 @@ import kr.studyprj2.hancoding.member.dto.MemberDTO;
 import kr.studyprj2.hancoding.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -58,5 +60,15 @@ public class MemberController {
             return "login";
         }
 
+    }
+
+    @GetMapping("/member")
+    public String findAll(Model model){
+        List<MemberDTO> memberDTOList = memberService.findAll();
+
+        //레포지토리에서 검색결과 모델에 담아서 반환하기
+        model.addAttribute("memberList",memberDTOList);
+
+        return "list";
     }
 }

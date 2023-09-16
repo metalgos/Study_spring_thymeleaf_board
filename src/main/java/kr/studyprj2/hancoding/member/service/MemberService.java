@@ -6,6 +6,8 @@ import kr.studyprj2.hancoding.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,25 +38,43 @@ public class MemberService {
         Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
 
 
-        if(byMemberEmail.isPresent()){
+        if (byMemberEmail.isPresent()) {
             //if문으로 메일아이디가 디비에서 검색될경우
 
             MemberEntity memberEntity = byMemberEmail.get();
-            if(memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())){
+            if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
                 //비빌번호 일치 겁색
                 // entity - > dto로 변환후 리턴
                 return MemberDTO.toMemberDTO(memberEntity);
-            }else{
+            } else {
 
                 //비번불일치
                 return null;
             }
 
-        }else{
+        } else {
             //메일아이디 없음
 
             return null;
         }
 
+    }
+
+    public List<MemberDTO> findAll() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+
+        for (MemberEntity memberEntity : memberEntityList) {
+            //foreach문법으로 일일히 하나씩 변환
+            memberDTOList.add(MemberDTO.toMemberDTO(memberEntity));
+            // entity 객채를dto로 변환하여 리스트에 추가
+            /*
+            //두줄로 쓰던 한줄로 쓰던 같음
+            MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
+            memberDTOList.add(memberDTO);
+            */
+        }
+
+        return memberDTOList;
     }
 }
