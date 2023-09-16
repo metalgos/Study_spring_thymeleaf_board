@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor //final 혹은 @NotNull이 붙은 필드를 @Aurowired 생성자 주입 어노테이션 없이 사용 가능하게 하는 롬복 어노테이션
@@ -32,5 +34,29 @@ public class MemberController {
         memberService.save(memberDTO);
 
         return "login";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(){
+        return "login";
+    }
+
+
+    @PostMapping("/login")
+    //@ModelAttribute 생략가능
+    public String postMemberLogin(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        System.out.println("in postMemberLogin");
+        System.out.println("memberDTO = " + memberDTO);
+
+
+        MemberDTO loginResult = memberService.login(memberDTO);
+        if (loginResult != null){
+            //login success
+            session.setAttribute("loginEmail",loginResult.getMemberEmail());
+            return "main";
+        }else {
+            return "login";
+        }
+
     }
 }
