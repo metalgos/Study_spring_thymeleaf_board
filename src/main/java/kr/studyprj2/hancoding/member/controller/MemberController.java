@@ -71,4 +71,13 @@ public class MemberController {
 
         return "list";
     }
+    @GetMapping("/member/{id}")
+    public String findById(@PathVariable Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+
+        //레포지토리에서 검색결과 모델에 담아서 반환하기
+        model.addAttribute("member",memberDTO);
+
+        return "detail";
+    }
 }

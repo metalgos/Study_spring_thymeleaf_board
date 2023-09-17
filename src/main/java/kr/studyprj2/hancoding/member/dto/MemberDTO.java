@@ -22,8 +22,6 @@ public class MemberDTO {
         memberDTO.setMemberEmail(memberEntity.getMemberEmail());
         memberDTO.setMemberPassword(memberEntity.getMemberPassword());
         memberDTO.setMemberName(memberEntity.getMemberName());
-        //System.out.println("memberEntity.email = " + memberEntity.getMemberEmail());
-        //System.out.println("memberDTO = " +memberDTO);
         return memberDTO;
     }
 }
