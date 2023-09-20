@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/member")
 @RequiredArgsConstructor //final 혹은 @NotNull이 붙은 필드를 @Aurowired 생성자 주입 어노테이션 없이 사용 가능하게 하는 롬복 어노테이션
 public class MemberController {
 
@@ -19,14 +18,14 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원가입 페이지
-    @GetMapping("/save")
+    @GetMapping("/member/save")
     public String getMemberSave() {
 
         return "savemember";
     }
 
 
-    @PostMapping("/save")
+    @PostMapping("/member/save")
     //@ModelAttribute 생략가능
     public String postMemberSave(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("in postMemberSave");
@@ -38,13 +37,13 @@ public class MemberController {
         return "login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/member/login")
     public String loginForm(){
         return "login";
     }
 
 
-    @PostMapping("/login")
+    @PostMapping("/member/login")
     //@ModelAttribute 생략가능
     public String postMemberLogin(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
         System.out.println("in postMemberLogin");
@@ -62,7 +61,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/member")
+    @GetMapping("/member/member")
     public String findAll(Model model){
         List<MemberDTO> memberDTOList = memberService.findAll();
 
@@ -79,5 +78,23 @@ public class MemberController {
         model.addAttribute("member",memberDTO);
 
         return "detail";
+    }
+
+    @GetMapping("/member/update")
+    public String updateForm(HttpSession session, Model model){
+        System.out.println("in memberupdate");
+        String myEmail = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO= memberService.updateForm(myEmail);
+        model.addAttribute("updateMember",memberDTO);
+
+        return "update";
+    }
+
+    @PostMapping("/member/update")
+    public String memberupdate(MemberDTO memberDTO, Model model){
+
+        memberService.memberUpdate(memberDTO);
+
+        return "redirect:/member/"+ memberDTO.getId();
     }
 }
