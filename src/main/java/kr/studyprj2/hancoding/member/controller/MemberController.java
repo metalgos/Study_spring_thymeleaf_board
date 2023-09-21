@@ -105,4 +105,12 @@ public class MemberController {
 
         return "redirect:/member/";
     }
+
+    @GetMapping("/member/logout")
+    public String logout(HttpSession session){
+        session.invalidate(); //세션값 모두 삭제
+
+        return "index";
+    }
+
 }
