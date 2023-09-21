@@ -61,7 +61,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/member/member")
+    @GetMapping("/member")
     public String findAll(Model model){
         List<MemberDTO> memberDTOList = memberService.findAll();
 
@@ -96,5 +96,13 @@ public class MemberController {
         memberService.memberUpdate(memberDTO);
 
         return "redirect:/member/"+ memberDTO.getId();
+    }
+
+    @GetMapping("/member/delete/{id}")
+    public String deleteById(@PathVariable Long id){
+
+        memberService.deleteById(id);
+
+        return "redirect:/member/";
     }
 }

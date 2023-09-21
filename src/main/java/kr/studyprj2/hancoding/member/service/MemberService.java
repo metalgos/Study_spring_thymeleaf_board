@@ -102,4 +102,8 @@ public class MemberService {
         memberRepository.save(MemberEntity.toUpdateMemberEntity(memberDTO)); //update 대신 save, 없을떄는insert 있을떄는 update
         //멤버 엔티티에서 id로 업데이트 할수있는 메서드 체크후 활요하기
     }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
 }
