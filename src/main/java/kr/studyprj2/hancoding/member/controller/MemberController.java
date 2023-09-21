@@ -113,4 +113,14 @@ public class MemberController {
         return "index";
     }
 
+    @PostMapping("/member/email-check")
+    @ResponseBody
+    //매개변수 값에 @requestParam("memberEmail") 으로 명시적으로 설정 안해줘도 변수명 같게 하면 됨
+    public String emailCheck(String memberEmail){
+        System.out.println("memberEmail : "+memberEmail);
+        String checkResult = memberService.emailCheck(memberEmail);
+        return checkResult;
+    }
+
+
 }
