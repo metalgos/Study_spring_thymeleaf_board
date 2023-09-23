@@ -32,10 +32,25 @@ public class BoardController {
         return "index";
     }
 
-    @GetMapping("/board/")
+    @GetMapping("/")
     public String findAll(Model model) {
         List<BoardDTO> boardDTOList =  boardService.findAll();
         model.addAttribute("boardList",boardDTOList);
         return "boardlist";
     }
+
+    @GetMapping("{id}")
+    public String findAll(@PathVariable Long id, Model model) {
+        //게시글 조회수를 하나 올리고 게시글 가져와서 detail.html에 출력
+
+        boardService.updateHits(id);
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("board",boardDTO);
+        return "boarddetail";
+
+
+    }
+
+
+
 }
