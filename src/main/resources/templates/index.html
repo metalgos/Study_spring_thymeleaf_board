@@ -11,8 +11,10 @@
 <button onclick="saveMem()">회원가입</button>
 <button onclick="loginMemq()">로그인</button>
 <button onclick="loginListq()">회원목록</button>
-
+<br>
 <button onclick="saveReq()">글작성</button>
+
+<button onclick="listReq()">글목록</button>
 
 <script>
 
@@ -31,6 +33,9 @@
 
       const loginListq =() => {
     location.href="/member";
+  }
+      const listReq =() => {
+    location.href="/board/";
   }
 </script>
 

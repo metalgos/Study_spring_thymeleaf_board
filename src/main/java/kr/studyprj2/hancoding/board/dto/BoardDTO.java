@@ -1,5 +1,6 @@
 package kr.studyprj2.hancoding.board.dto;
 
+import kr.studyprj2.hancoding.board.entity.BoardEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,5 +16,18 @@ public class BoardDTO {
     private String boardWriter,boardPass,boardTitle,boardContents;
     private int boardHits;
     private LocalDateTime boardCreatedTime,boardUpdatedTime;
+
+    public static BoardDTO toBoardDTO(BoardEntity boardEntity){
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setId(boardEntity.getId());
+        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
+        boardDTO.setBoardPass(boardEntity.getBoardPass());
+        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
+        boardDTO.setBoardContents(boardEntity.getBoardContents());
+        boardDTO.setBoardHits(boardEntity.getBoardHits());
+        boardDTO.setBoardCreatedTime(boardEntity.getBoardCreatedTime());
+        boardDTO.setBoardUpdatedTime(boardEntity.getBoardUpdatedTime());
+        return boardDTO;
+    }
 
 }

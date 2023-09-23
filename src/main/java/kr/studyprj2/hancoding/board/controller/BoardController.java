@@ -4,7 +4,10 @@ import kr.studyprj2.hancoding.board.dto.BoardDTO;
 import kr.studyprj2.hancoding.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/board")
@@ -27,5 +30,12 @@ public class BoardController {
 
         boardService.save(boardDTO);
         return "index";
+    }
+
+    @GetMapping("/board/")
+    public String findAll(Model model) {
+        List<BoardDTO> boardDTOList =  boardService.findAll();
+        model.addAttribute("boardList",boardDTOList);
+        return "boardlist";
     }
 }
