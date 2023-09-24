@@ -6,6 +6,7 @@ import kr.studyprj2.hancoding.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +50,15 @@ public class BoardService {
         }else {
             return null;
         }
+    }
+
+    public BoardDTO update(BoardDTO boardDTO) {
+        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
+        boardRepository.save(boardEntity) ; //레포지토리 save는 인서트 업데이트 둘다가능. 전달받은 변수에 id값이 없으면 인서트 있으면 업데이트됨
+        return findById(boardDTO.getId());
+    }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
     }
 }

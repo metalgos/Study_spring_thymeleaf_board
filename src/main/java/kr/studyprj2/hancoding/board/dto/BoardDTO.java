@@ -27,6 +27,7 @@ public class BoardDTO {
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedTime(boardEntity.getBoardCreatedTime());
         boardDTO.setBoardUpdatedTime(boardEntity.getBoardUpdatedTime());
+
         return boardDTO;
     }
 

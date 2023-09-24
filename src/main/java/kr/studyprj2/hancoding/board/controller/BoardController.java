@@ -51,6 +51,30 @@ public class BoardController {
 
     }
 
+    @GetMapping("/update/{id}")
+    public String updateFrom(@PathVariable Long id,Model model){
 
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("boardUpdate", boardDTO);
+        return "boardupdate";
+
+    }
+
+    @PostMapping("/update")
+    public String update(BoardDTO boardDTO,Model model){
+        BoardDTO board = boardService.update(boardDTO);
+        model.addAttribute("board",board);
+        return "boarddetail";
+       // return "redirect:/board"+boardDTO.getId(); 수정하면 조회수가 올라갈수가 있음
+
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        boardService.delete(id);
+
+        return "redirect:/board/";
+    }
 
 }

@@ -45,4 +45,16 @@ public class BoardEntity extends BaseEntity {
     }
 
 
+    public static BoardEntity toUpdateEntity(BoardDTO boardDTO) {
+
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(boardDTO.getId());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPass(boardDTO.getBoardPass());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(boardDTO.getBoardHits());
+        //스프르링 버전 3.0 부터는 BeanUtils.copyProperties(boardDTO, boardEntity); 로 간단하게 객채 복사 가능
+        return boardEntity;
+    }
 }
