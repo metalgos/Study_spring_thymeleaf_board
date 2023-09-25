@@ -9,9 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.*;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +25,32 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public void save(BoardDTO boardDTO) {
+    public void save(BoardDTO boardDTO) throws IOException {
+        //파일 첨부 여부에 따라 로직 분리
+        if(boardDTO.getBoardFile().isEmpty()){
+            //첨부파일이 없을경우
+            BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO); // static 메소드라서 가능
+            boardRepository.save(boardEntity); //레포지토리는 서비스 객채만 이용 가능 dto를 엔티티로 변환
+        }else{
+            //첨부 파일이 있을경우
+            /*
+            1.DTO에 담긴 파일을 꺼냄
+            2. 파일의 이름 가져옴
+            3. 서버 저장용 이름을 만듦
+               내사진.jpg -> 23414134324_내사진.jpg
+            4. 저장 경로 설정
+            5. 해당 경로에 파일 저장
+            6. board_table에 해당 데이터 save 처리
+            7. board_file_table에 해당 데이터 save 처리
+            */
+            MultipartFile boardFile = boardDTO.getBoardFile(); //1
+            String originalFilename = boardFile.getOriginalFilename();//2
+            String storedFileName = System.currentTimeMillis() + "_" + originalFilename; //3 날짜시간을 붙여서 파일이름 생성
+            String savePath = "C:/temp/"+storedFileName; //4.c드라이브에 저장할 폴더 와 파일이름 설정
+            boardFile.transferTo(new File(savePath)); // 5.파일을 자바io파일로 넘김
 
-        BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO); // static 메소드라서 가능
-        boardRepository.save(boardEntity); //레포지토리는 서비스 객채만 이용 가능 dto를 엔티티로 변환
-        System.out.println(boardEntity.toString());
+
+        }
     }
 
     public List<BoardDTO> findAll() {

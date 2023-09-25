@@ -31,6 +31,9 @@ public class BoardEntity extends BaseEntity {
 
     @Column
     private int boardHits;
+    
+    @Column
+    private int fileAttached; // 1,0 파일첨부여부
 
     public static BoardEntity toSaveEntity(BoardDTO boardDTO){
 
@@ -40,6 +43,7 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(0); //파일 없음
         //스프르링 버전 3.0 부터는 BeanUtils.copyProperties(boardDTO, boardEntity); 로 간단하게 객채 복사 가능
         return boardEntity;
     }

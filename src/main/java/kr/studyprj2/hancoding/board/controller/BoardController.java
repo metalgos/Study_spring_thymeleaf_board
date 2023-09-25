@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -29,7 +30,7 @@ public class BoardController {
     public String save(
             //@RequestParam("boardWriter") String boadWriter 하나씩 받을떄는 리퀘스트파람, 여러개는 dto로 받는게 편함
             @ModelAttribute  BoardDTO boardDTO
-    ) {
+    ) throws IOException {
 
         boardService.save(boardDTO);
         return "index";
