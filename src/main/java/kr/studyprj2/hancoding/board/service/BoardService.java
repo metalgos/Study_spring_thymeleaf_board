@@ -1,7 +1,10 @@
 package kr.studyprj2.hancoding.board.service;
 
 import kr.studyprj2.hancoding.board.dto.BoardDTO;
+import kr.studyprj2.hancoding.board.entity.BaseEntity;
 import kr.studyprj2.hancoding.board.entity.BoardEntity;
+import kr.studyprj2.hancoding.board.entity.BoardFileEntity;
+import kr.studyprj2.hancoding.board.repository.BoardFileRepository;
 import kr.studyprj2.hancoding.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,7 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final BoardFileRepository boardFileRepository;
 
     public void save(BoardDTO boardDTO) throws IOException {
         //파일 첨부 여부에 따라 로직 분리
@@ -47,8 +51,13 @@ public class BoardService {
             String originalFilename = boardFile.getOriginalFilename();//2
             String storedFileName = System.currentTimeMillis() + "_" + originalFilename; //3 날짜시간을 붙여서 파일이름 생성
             String savePath = "C:/temp/"+storedFileName; //4.c드라이브에 저장할 폴더 와 파일이름 설정
-            boardFile.transferTo(new File(savePath)); // 5.파일을 자바io파일로 넘김
+            boardFile.transferTo(new File(savePath)); // 5.파일을 자바io파일로 넘김'
+            BoardEntity boardEntity= BoardEntity.toSaveFileEntity(boardDTO); //id값이 현재 존재하지 않음
+            Long savedId = boardRepository.save(boardEntity).getId(); //부모 게시글의 pk id값을 알아야함
+            BoardEntity board = boardRepository.findById(savedId).get();//부모엔티티를 db로 가져오기, id값을 가져오기위해 사용
 
+            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);//엔티티 변환
+            boardFileRepository.save(boardFileEntity);
 
         }
     }

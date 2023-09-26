@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,13 @@ public class BoardEntity extends BaseEntity {
     @Column
     private int fileAttached; // 1,0 파일첨부여부
 
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch =  FetchType.LAZY)
+    //mappedby 매칭되는 엔티티 이름,
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>(); //게시글 하나에 여러 파일이 있을수 있으므로 리스트로 설정
+
+
+
     public static BoardEntity toSaveEntity(BoardDTO boardDTO){
 
         BoardEntity boardEntity = new BoardEntity();
@@ -58,6 +67,19 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(boardDTO.getBoardHits());
+        //스프르링 버전 3.0 부터는 BeanUtils.copyProperties(boardDTO, boardEntity); 로 간단하게 객채 복사 가능
+        return boardEntity;
+    }
+
+    public static BoardEntity toSaveFileEntity(BoardDTO boardDTO) {
+
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPass(boardDTO.getBoardPass());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(1); //파일 있음
         //스프르링 버전 3.0 부터는 BeanUtils.copyProperties(boardDTO, boardEntity); 로 간단하게 객채 복사 가능
         return boardEntity;
     }
