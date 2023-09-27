@@ -80,7 +80,6 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
         boardEntity.setFileAttached(1); //파일 있음
-        //스프르링 버전 3.0 부터는 BeanUtils.copyProperties(boardDTO, boardEntity); 로 간단하게 객채 복사 가능
         return boardEntity;
     }
 }
