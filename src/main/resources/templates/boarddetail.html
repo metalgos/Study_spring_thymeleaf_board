@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>detail</title>
     <!-- jquery cdn -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
 <table>
@@ -34,7 +35,9 @@
     </tr>
     <tr th:if="${board.fileAttached == 1}">
         <th>image</th>
-        <td><img th:src="@{|/upload/${board.storedFileName}|}" alt=""></td>
+        <td th:each="fileName:${board.storedFileName}">
+            <img th:src="@{|/upload/${fileName}|}" alt="">
+        </td>
     </tr>
 </table>
 <button onclick="listReq()">목록</button>

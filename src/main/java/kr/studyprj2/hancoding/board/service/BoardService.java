@@ -47,18 +47,23 @@ public class BoardService {
             6. board_table에 해당 데이터 save 처리
             7. board_file_table에 해당 데이터 save 처리
             */
-            MultipartFile boardFile = boardDTO.getBoardFile(); //1
-            String originalFilename = boardFile.getOriginalFilename();//2
-            String storedFileName = System.currentTimeMillis() + "_" + originalFilename; //3 날짜시간을 붙여서 파일이름 생성
-            String savePath = "C:/temp/"+storedFileName; //4.c드라이브에 저장할 폴더 와 파일이름 설정
-            boardFile.transferTo(new File(savePath)); // 5.파일을 자바io파일로 넘김'
+            /* 파일 여러개를 저장할경우 부모파일이 먼저 들어가야함. */
             BoardEntity boardEntity= BoardEntity.toSaveFileEntity(boardDTO); //id값이 현재 존재하지 않음
             Long savedId = boardRepository.save(boardEntity).getId(); //부모 게시글의 pk id값을 알아야함
             BoardEntity board = boardRepository.findById(savedId).get();//부모엔티티를 db로 가져오기, id값을 가져오기위해 사용
+            /*                                              */
 
-            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);//엔티티 변환
-            boardFileRepository.save(boardFileEntity);
+            for(MultipartFile boardFile : boardDTO.getBoardFile()) {
 
+               // MultipartFile boardFile = boardDTO.getBoardFile(); //1  여러개 가져올떄는 이문장 없어도 됨
+                String originalFilename = boardFile.getOriginalFilename();//2
+                String storedFileName = System.currentTimeMillis() + "_" + originalFilename; //3 날짜시간을 붙여서 파일이름 생성
+                String savePath = "C:/temp/" + storedFileName; //4.c드라이브에 저장할 폴더 와 파일이름 설정
+                boardFile.transferTo(new File(savePath)); // 5.파일을 자바io파일로 넘김'
+
+                BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);//엔티티 변환
+                boardFileRepository.save(boardFileEntity);
+            }
         }
     }
 

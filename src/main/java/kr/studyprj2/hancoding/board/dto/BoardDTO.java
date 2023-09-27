@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,9 +21,9 @@ public class BoardDTO {
     private int boardHits;
     private LocalDateTime boardCreatedTime,boardUpdatedTime;
 
-    private MultipartFile boardFile; //스프링에서 지원하는 파일을 담는 변수
-    private String originalFileName; //원본파일이름
-    private String storedFileName;  //서버 저장용 파일 이름
+    private List<MultipartFile> boardFile; //스프링에서 지원하는 파일을 담는 변수
+    private List<String> originalFileName; //원본파일이름
+    private List<String> storedFileName;  //서버 저장용 파일 이름
     private int fileAttached; // 파일 첨부여부(첨부1, 미첨부0), int 대신 bulean형은 나중에 dto에서 처리가 어려움.
 
     public BoardDTO(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
@@ -45,13 +47,23 @@ public class BoardDTO {
         if(boardEntity.getFileAttached()==0){
             boardDTO.setFileAttached(boardEntity.getFileAttached());
         }else{
+            List<String> originalFileNameList = new ArrayList<>();
+            List<String> storedFileNameList = new ArrayList<>();
+
+
             boardDTO.setFileAttached(boardEntity.getFileAttached());
             //파일 이름을 가져가야함
             //originalFileName, storedFilename : board_file_table(BaoardFileEntity)
             //db를 연관관계를 맺어놨기 떄문에 jpa에서 조인해옴
-            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
-            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
 
+            for(BoardFileEntity boardFileEntity : boardEntity.getBoardFileEntityList()) { //파일 여러개 목록 리스트에 담기
+
+                originalFileNameList.add(boardFileEntity.getOriginalFileName());
+                storedFileNameList.add(boardFileEntity.getStoredFileName());
+
+            }
+            boardDTO.setOriginalFileName(originalFileNameList); //리스트 담기
+            boardDTO.setStoredFileName(storedFileNameList);
 
         }
 
