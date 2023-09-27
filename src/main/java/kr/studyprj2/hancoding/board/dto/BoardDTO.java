@@ -1,6 +1,7 @@
 package kr.studyprj2.hancoding.board.dto;
 
 import kr.studyprj2.hancoding.board.entity.BoardEntity;
+import kr.studyprj2.hancoding.board.entity.BoardFileEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,18 @@ public class BoardDTO {
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedTime(boardEntity.getBoardCreatedTime());
         boardDTO.setBoardUpdatedTime(boardEntity.getBoardUpdatedTime());
+        if(boardEntity.getFileAttached()==0){
+            boardDTO.setFileAttached(boardEntity.getFileAttached());
+        }else{
+            boardDTO.setFileAttached(boardEntity.getFileAttached());
+            //파일 이름을 가져가야함
+            //originalFileName, storedFilename : board_file_table(BaoardFileEntity)
+            //db를 연관관계를 맺어놨기 떄문에 jpa에서 조인해옴
+            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+
+
+        }
 
         return boardDTO;
     }

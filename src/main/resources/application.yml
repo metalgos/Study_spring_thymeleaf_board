@@ -20,7 +20,7 @@ spring.datasource.password: 1234
 spring.jpa.show-sql: true
 
 # DDL 설정입니다. "update"로 설정하면 DB를 조회하고, 없으면 자동으로 생성합니다. create는 기존 데이터를 모두 삭제하고 다시 생성합니다.
-spring.jpa.hibernate.ddl-auto: update
+spring.jpa.hibernate.ddl-auto: create
 
 # JPA와 Hibernate를 사용할 때 SQL을 읽기 좋게 포맷팅합니다.
 spring.jpa.properties.hibernate.format_sql: true

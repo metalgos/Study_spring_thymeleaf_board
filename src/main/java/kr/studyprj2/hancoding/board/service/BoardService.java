@@ -62,8 +62,11 @@ public class BoardService {
         }
     }
 
+    @Transactional
     public List<BoardDTO> findAll() {
+        System.out.println("in findall");
         List<BoardEntity> boardEntityList = boardRepository.findAll(); //db에서 넘어온 객채를 변경해야함
+        System.out.println("in findall2");
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for (BoardEntity boardEntity : boardEntityList) {
             boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
@@ -78,6 +81,7 @@ public class BoardService {
         boardRepository.updateHits(id);
     }
 
+    @Transactional
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
 
