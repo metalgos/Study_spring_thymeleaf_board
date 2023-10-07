@@ -44,8 +44,6 @@
 <button onclick="updateReq()">수정</button>
 <button onclick="deleteReq()">삭제</button>
 
-
-
 <!-- 댓글 작성 부분 -->
 <div id="comment-write">
     <input type="text" id="commentWriter" placeholder="작성자">
@@ -72,7 +70,7 @@
 -->
 </body>
 <script th:inline="javascript">
-    //ajax로 요청
+    //ajax로 요청 json 데이터 생성후 보내기
     const commentWrite = () => {
        const writer = document.getElementById("commentWriter").value;
        const contents = document.getElementById("commentContents").value;
