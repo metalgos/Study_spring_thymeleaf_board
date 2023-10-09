@@ -77,7 +77,7 @@
        const contents = document.getElementById("commentContents").value;
        console.log("작성자: ", writer);
        console.log("내용: ", contents);
-       const id = [[${board.id}]];
+       const id = [[${board.id}]]; //게시글 번호. 타임리프 선언한 자바스크립트에서 사용가능
        $.ajax({
           // 요청방식: post, 요청주소: /comment/save, 요청데이터: 작성자, 작성내용, 게시글번호
           type: "post",
