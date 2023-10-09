@@ -42,7 +42,9 @@ public class BoardEntity extends BaseEntity {
     //mappedby 매칭되는 엔티티 이름,
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>(); //게시글 하나에 여러 파일이 있을수 있으므로 리스트로 설정
 
-
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch =  FetchType.LAZY)
+    //댓글 부모개시글 삭제되면 자식도 삭제되게
+    private List<CommentEntity> commentEntityList =new ArrayList<>();
 
     public static BoardEntity toSaveEntity(BoardDTO boardDTO){
 

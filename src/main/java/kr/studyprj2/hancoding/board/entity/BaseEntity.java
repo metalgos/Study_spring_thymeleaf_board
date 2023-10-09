@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @CreationTimestamp //생성됬을떄 시간 생성
     @Column(updatable = false) //업데이트 불가
-    private LocalDateTime boardCreatedTime;
+    private LocalDateTime CreatedTime;
 
     @UpdateTimestamp
     @Column(insertable = false) //인서트 불가
-    private LocalDateTime boardUpdatedTime;
+    private LocalDateTime UpdatedTime;
 }

@@ -129,7 +129,7 @@ public class BoardService {
         //페이지 객체에서 지원해주는 map - > : 맵의 객채 엔티티 board를 하나씩 옮겨서 BoardDTO로 담아준다. foreach처럼.
         //목록에서 보여주려는 데이터 : id, writer,title,hjits,createTime
         // 목록: id, writer, title, hits, createdTime
-        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getId(), board.getBoardWriter(), board.getBoardTitle(), board.getBoardHits(), board.getBoardCreatedTime()));
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getId(), board.getBoardWriter(), board.getBoardTitle(), board.getBoardHits(), board.getCreatedTime()));
         return boardDTOS;
 
     }
